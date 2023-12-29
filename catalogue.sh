@@ -1,4 +1,5 @@
 source common.sh
+echo $func_user
 
 echo -e "************\e[36m Set correct Nodejs version *********\e[0m"
 dnf module disable nodejs -y
@@ -9,7 +10,7 @@ dnf install nodejs -y
 
 echo -e "************\e[36m Add Functional User *********\e[0m"
 useradd ${func_user}
-exit
+
 echo -e "************\e[36m Create app directory *********\e[0m"
 rm -rf /app
 mkdir /app

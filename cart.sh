@@ -1,3 +1,6 @@
+source common.sh
+script=$(realpath $0)
+exit
 echo -e "************\e[36m Setup NodeJs Version ************\e[0m"
 dnf module disable nodejs -y
 dnf module enable nodejs:18 -y
@@ -6,7 +9,7 @@ echo -e "************\e[36m Install NodeJs ************\e[0m"
 dnf install nodejs -y
 
 echo -e "************\e[36m Create a Functional User ************\e[0m"
-useradd roboshop
+useradd ${func_user}
 
 echo -e "************\e[36m Create App Directory ************\e[0m"
 rm -rf /app

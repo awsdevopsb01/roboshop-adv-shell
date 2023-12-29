@@ -1,8 +1,9 @@
+source common.sh
 echo -e "************\e[36m Install Maven ************\e[0m"
 dnf install maven -y
 
 echo -e "************\e[36m Create Functional User ************\e[0m"
-useradd roboshop
+useradd ${func_user}
 
 echo -e "************\e[36m Create App directory ************\e[0m"
 rm -rf /app
