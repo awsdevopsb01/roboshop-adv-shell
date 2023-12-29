@@ -1,5 +1,6 @@
 source common.sh
-echo $func_user
+script=$(realpath "$0")
+script_path=$(dirname "$script")
 
 echo -e "************\e[36m Set correct Nodejs version *********\e[0m"
 dnf module disable nodejs -y
@@ -25,7 +26,7 @@ echo -e "************\e[36m Install Dependencies *********\e[0m"
 npm install
 
 echo -e "************\e[36m Copy the Catalogue service *********\e[0m"
-cp /home/centos/roboshop-shell/catalogue.service /etc/systemd/system/catalogue.service
+cp $script_path/catalogue.service /etc/systemd/system/catalogue.service
 
 echo -e "************\e[36m Start Catalogue service *********\e[0m"
 systemctl daemon-reload

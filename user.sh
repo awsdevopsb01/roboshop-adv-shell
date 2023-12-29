@@ -1,4 +1,7 @@
 source common.sh
+script=$(realpath "$0")
+script_path=$(dirname "$script")
+
 echo -e "************\e[36m Correct NodeJs version ************\e[0m"
 dnf module disable nodejs -y
 dnf module enable nodejs:18 -y
@@ -24,7 +27,7 @@ echo -e "************\e[36m Install dependencies ************\e[0m"
 npm install
 
 echo -e "************\e[36m Create mongodb repo ************\e[0m"
-cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo
+cp $script_path/mongo.repo /etc/yum.repos.d/mongo.repo
 
 echo -e "************\e[36m Install mongodb ************\e[0m"
 dnf install mongodb-org-shell -y

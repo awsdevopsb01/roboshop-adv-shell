@@ -1,4 +1,7 @@
 source common.sh
+script=$(realpath "$0")
+script_path=$(dirname "$script")
+
 echo -e "************\e[36m Install Maven ************\e[0m"
 dnf install maven -y
 
@@ -23,7 +26,7 @@ echo -e "************\e[36m Move Shipping.jar file ************\e[0m"
 mv target/shipping-1.0.jar shipping.jar
 
 echo -e "************\e[36m Copy Shipping service ************\e[0m"
-cp /home/centos/roboshop-shell/shipping.service /etc/systemd/system/shipping.service
+cp $script_path/shipping.service /etc/systemd/system/shipping.service
 
 echo -e "************\e[36m install Mysql ************\e[0m"
 dnf install mysql -y

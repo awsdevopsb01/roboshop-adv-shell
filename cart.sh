@@ -1,9 +1,6 @@
 source common.sh
 script=$(realpath "$0")
-echo $script
 script_path=$(dirname "$script")
-echo $script_path
-exit
 
 echo -e "************\e[36m Setup NodeJs Version ************\e[0m"
 dnf module disable nodejs -y
@@ -30,7 +27,7 @@ echo -e "************\e[36m Install Dependencies ************\e[0m"
 npm install
 
 echo -e "************\e[36m Copy Cart Service ************\e[0m"
-cp /home/centos/roboshop-shell/cart.service /etc/systemd/system/cart.service
+cp $script_path/cart.service /etc/systemd/system/cart.service
 
 echo -e "************\e[36m Enable and Start Cart Service ************\e[0m"
 systemctl daemon-reload

@@ -1,3 +1,6 @@
+script=$(realpath "$0")
+script_path=$(dirname "$script")
+
 echo -e "************\e[36m Install NGINX ************\e[0m"
 dnf install nginx -y
 
@@ -16,7 +19,7 @@ echo -e "************\e[36m Unzip frontend files ************\e[0m"
 unzip /tmp/frontend.zip
 
 echo -e "************\e[36m Copy Roboshop Config file ************\e[0m"
-cp /home/centos/roboshop-shell/roboshop.conf /etc/nginx/default.d/roboshop.conf
+cp $script_path/roboshop.conf /etc/nginx/default.d/roboshop.conf
 
 echo -e "************\e[36m ReStart NGINX ************\e[0m"
 systemctl restart nginx
