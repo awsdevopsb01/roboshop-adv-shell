@@ -1,5 +1,6 @@
 source common.sh
-script=$(realpath $0)
+script=$(realpath "$0")
+echo $script
 exit
 echo -e "************\e[36m Setup NodeJs Version ************\e[0m"
 dnf module disable nodejs -y
