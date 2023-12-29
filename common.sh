@@ -1,0 +1,1 @@
+func_user="roboshop"
