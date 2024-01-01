@@ -1,37 +1,10 @@
 source common.sh
 script=$(realpath "$0")
 script_path=$(dirname "$script")
+component=catalogue
 
-echo -e "************\e[36m Set correct Nodejs version *********\e[0m"
-dnf module disable nodejs -y
-dnf module enable nodejs:18 -y
+func_setup_nodejs
 
-echo -e "************\e[36m Install Nodejs ************\e[0m"
-dnf install nodejs -y
-
-echo -e "************\e[36m Add Functional User *********\e[0m"
-useradd ${func_user}
-
-echo -e "************\e[36m Create app directory *********\e[0m"
-rm -rf /app
-mkdir /app
-
-echo -e "************\e[36m Download the code *********\e[0m"
-curl -o /tmp/catalogue.zip https://roboshop-artifacts.s3.amazonaws.com/catalogue.zip
-
-echo -e "************\e[36m Unzip the code *********\e[0m"
-cd /app
-unzip /tmp/catalogue.zip
-echo -e "************\e[36m Install Dependencies *********\e[0m"
-npm install
-
-echo -e "************\e[36m Copy the Catalogue service *********\e[0m"
-cp $script_path/catalogue.service /etc/systemd/system/catalogue.service
-
-echo -e "************\e[36m Start Catalogue service *********\e[0m"
-systemctl daemon-reload
-systemctl enable catalogue
-systemctl restart catalogue
 
 echo -e "************\e[36m Copy Mongodb repo *********\e[0m"
 cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo
