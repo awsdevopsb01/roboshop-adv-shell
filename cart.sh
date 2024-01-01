@@ -1,6 +1,5 @@
-source common.sh
 script=$(realpath "$0")
 script_path=$(dirname "$script")
-component=cart
-func_setup_nodejs
+source $script_path/common.sh
+func_setup_nodejs cart
 

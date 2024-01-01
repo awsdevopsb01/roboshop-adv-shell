@@ -1,10 +1,9 @@
-source common.sh
+
 script=$(realpath "$0")
 script_path=$(dirname "$script")
-component=catalogue
+source $script_path/common.sh
 
-func_setup_nodejs
-
+func_setup_nodejs catalogue
 
 echo -e "************\e[36m Copy Mongodb repo *********\e[0m"
 cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo

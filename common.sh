@@ -1,37 +1,41 @@
 script=$(realpath "$0")
 script_path=$(dirname "$script")
 func_user="roboshop"
+component="$1"
 
+func_setup_header() {
+  echo -e "************\e[36m $1 ************\e[0m"
+}
 
 func_setup_nodejs() {
-echo -e "************\e[36m Setup NodeJs Version ************\e[0m"
-dnf module disable nodejs -y
-dnf module enable nodejs:18 -y
+ func_setup_header "Setup NodeJs Version"
+ dnf module disable nodejs -y
+ dnf module enable nodejs:18 -y
 
-echo -e "************\e[36m Install NodeJs ************\e[0m"
+ func_setup_header "Install NodeJs "
 dnf install nodejs -y
 
-echo -e "************\e[36m Create a Functional User ************\e[0m"
+ func_setup_header "Create a Functional User "
 useradd ${func_user}
 
-echo -e "************\e[36m Create App Directory ************\e[0m"
+func_setup_header "Create App Directory "
 rm -rf /app
 mkdir /app
 
-echo -e "************\e[36m Download App Content ************\e[0m"
-curl -L -o /tmp/cart.zip https://roboshop-artifacts.s3.amazonaws.com/cart.zip
+func_setup_header "Download App Content "
+curl -L -o /tmp/${component}.zip https://roboshop-artifacts.s3.amazonaws.com/${component}.zip
 
-echo -e "************\e[36m Extract App Content ************\e[0m"
+func_setup_header "Extract App Content "
 cd /app
-unzip /tmp/cart.zip
+unzip /tmp/${component}.zip
 
-echo -e "************\e[36m Install Dependencies ************\e[0m"
+func_setup_header "Install Dependencies "
 npm install
 
-echo -e "************\e[36m Copy Cart Service ************\e[0m"
+func_setup_header "Copy Cart Service "
 cp $script_path/cart.service /etc/systemd/system/cart.service
 
-echo -e "************\e[36m Enable and Start Cart Service ************\e[0m"
+func_setup_header "Enable and Start Cart Service "
 systemctl daemon-reload
 systemctl enable cart
 systemctl restart cart
