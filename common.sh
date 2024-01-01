@@ -40,4 +40,16 @@ systemctl daemon-reload
 systemctl enable cart
 systemctl restart cart
 
+func_load_repo
+}
+
+func_load_repo() {
+  echo -e "************\e[36m Copy Mongodb repo *********\e[0m"
+  cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo
+
+  echo -e "************\e[36m Install mongodb *********\e[0m"
+  dnf install mongodb-org-shell -y
+
+  echo -e "************\e[36m Load Mongodb *********\e[0m"
+  mongo --host mongodb-dev.nldevopsb01.online </app/schema/catalogue.js
 }
