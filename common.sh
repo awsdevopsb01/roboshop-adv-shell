@@ -33,17 +33,17 @@ func_setup_header "Install Dependencies "
 npm install
 
 func_setup_header "Copy Cart Service "
-cp "$script_path"/cart.service /etc/systemd/system/cart.service
+cp "$script_path"/"${component}".service /etc/systemd/system/"${component}".service
 
 func_setup_header "Enable and Start Cart Service "
 systemctl daemon-reload
-systemctl enable cart
-systemctl restart cart
+systemctl enable "${component}"
+systemctl restart "${component}"
 
-func_load_repo
+func_load_schema
 }
 
-func_load_repo() {
+func_load_schema() {
   echo -e "************\e[36m Copy Mongodb repo *********\e[0m"
   cp /home/centos/roboshop-shell/mongo.repo /etc/yum.repos.d/mongo.repo
 
