@@ -64,6 +64,9 @@ func_java_setup() {
  func_app_setup() {
   func_setup_header "Create a Functional User "
   useradd ${func_user}
+  if [ "$?" -ne 0 ]; then
+    exit 1
+  fi
 
   func_setup_header "Create Application Directory "
   rm -rf /app
