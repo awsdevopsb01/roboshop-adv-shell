@@ -5,6 +5,7 @@ component="$1"
 
 func_setup_header() {
   echo -e "************\e[36m $1 ************\e[0m"
+  echo -e "************\e[36m $1 ************\e[0m" &>> /tmp/roboshop.log
 }
 
 func_status_check() {
