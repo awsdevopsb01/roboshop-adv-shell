@@ -49,13 +49,13 @@ func_setup_nodejs() {
  func_status_check $?
 
  func_setup_header "Install NodeJs "
- dnf install nodejs -y
+ dnf install nodejs -y &>> /tmp/roboshop.log
  func_status_check $?
 
  func_app_setup
 
  func_setup_header "Install Dependencies "
- npm install
+ npm install &>> /tmp/roboshop.log
  func_status_check $?
 
  func_load_schema
@@ -84,12 +84,12 @@ func_java_setup() {
 
  func_app_setup() {
   func_setup_header "Create a Functional User "
-  useradd ${func_user}
+  useradd ${func_user} &>> /tmp/roboshop.log
   func_status_check $?
 
   func_setup_header "Create Application Directory "
   rm -rf /app
-  mkdir /app
+  mkdir /app &>> /tmp/roboshop.log
   func_status_check $?
 
   func_setup_header "Download Application Content "
