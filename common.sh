@@ -85,7 +85,10 @@ func_java_setup() {
 
  func_app_setup() {
   func_setup_header "Create a Functional User "
-  useradd ${func_user} &>> $log_path
+  id ${func_user} &>> $log_path
+  if [ "$?" -ne 0 ]; then
+   useradd ${func_user} &>> $log_path
+  fi
   func_status_check $?
 
   func_setup_header "Create Application Directory "
