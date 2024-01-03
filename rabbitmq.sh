@@ -1,15 +1,40 @@
-echo -e "************\e[36m Install Erlang ************\e[0m"
-curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash
+log_path=/tmp/roboshop.log
 
-echo -e "************\e[36m Setup RabbitMQ repo ************\e[0m"
-curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash
+func_setup_header() {
+  echo -e "************\e[36m $1 ************\e[0m"
+  echo -e "************\e[36m $1 ************\e[0m" &>> $log_path
+}
 
-echo -e "************\e[36m Install RabbitMQ ************\e[0m"
-dnf install rabbitmq-server -y
+func_status_check() {
+  if [ "$1" -ne 0 ]; then
+      echo -e "\e[31m FAILURE \e[0m" $1
+      exit 1
+  else
+    echo -e "\e[32m SUCCESS \e[0m"
+  fi
+}
 
-echo -e "************\e[36m Enable and Start RabbitMQ ************\e[0m"
+func_setup_header "Install Erlang"
+curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | bash &>> $log_path
+func_status_check $?
 
-systemctl enable rabbitmq-server
-systemctl restart rabbitmq-server
-rabbitmqctl add_user roboshop roboshop123
-rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*"
+func_setup_header "Setup RabbitMQ repo"
+curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash &>> $log_path
+func_status_check $?
+
+func_setup_header "Install RabbitMQ"
+dnf install rabbitmq-server -y &>> $log_path
+func_status_check $?
+
+func_setup_header "Enable and Start RabbitMQ"
+
+systemctl enable rabbitmq-server &>> $log_path
+func_status_check $?
+systemctl restart rabbitmq-server &>> $log_path
+func_status_check $?
+
+func_setup_header "Add RabbitMQ User and set permissions"
+rabbitmqctl add_user roboshop roboshop123 &>> $log_path
+func_status_check $?
+rabbitmqctl set_permissions -p / roboshop ".*" ".*" ".*" &>> $log_path
+func_status_check $?

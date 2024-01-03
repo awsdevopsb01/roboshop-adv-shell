@@ -1,13 +1,37 @@
-echo -e "************\e[36m Setup Mysql version ************\e[0m"
+script=$(realpath "$0")
+script_path=$(dirname "$script")
+log_path=/tmp/roboshop.log
+
+func_setup_header() {
+  echo -e "************\e[36m $1 ************\e[0m"
+  echo -e "************\e[36m $1 ************\e[0m" &>> $log_path
+}
+
+func_status_check() {
+  if [ "$1" -ne 0 ]; then
+      echo -e "\e[31m FAILURE \e[0m" $1
+      exit 1
+  else
+    echo -e "\e[32m SUCCESS \e[0m"
+  fi
+}
+
+
+func_setup_header "Setup Mysql version"
 dnf module disable mysql -y
-cp /home/centos/roboshop-shell/mysql.repo /etc/yum.repos.d/mysql.repo
+cp $script_path/mysql.repo /etc/yum.repos.d/mysql.repo &>> $log_path
+func_status_check $?
 
-echo -e "************\e[36m Install Mysql ************\e[0m"
-dnf install mysql-community-server -y
+func_setup_header "Install Mysql"
+dnf install mysql-community-server -y &>> $log_path
+func_status_check $?
 
-echo -e "************\e[36m Enable and Start Mysql ************\e[0m"
-systemctl enable mysqld
-systemctl restart mysqld
+func_setup_header "Enable and Start Mysql"
+systemctl enable mysqld &>> $log_path
+func_status_check $?
+systemctl restart mysqld &>> $log_path
+func_status_check $?
 
-echo -e "************\e[36m Reset Mysql default password ************\e[0m"
-mysql_secure_installation --set-root-pass RoboShop@1
+func_setup_header "Reset Mysql Default Password"
+mysql_secure_installation --set-root-pass RoboShop@1 &>> $log_path
+func_status_check $?

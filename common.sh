@@ -119,3 +119,15 @@ func_java_setup() {
     systemctl restart "${component}" &>> $log_path
     func_status_check $?
  }
+
+ func_python_setup() {
+   func_setup_header "Install Python"
+   dnf install python36 gcc python3-devel -y
+
+   func_app_setup
+
+   func_setup_header "Install Dependencies"
+   pip3.6 install -r requirements.txt
+
+   func_start_systemd
+ }
