@@ -1,5 +1,3 @@
-script=$(realpath "$0")
-script_path=$(dirname "$script")
 log_path=/tmp/roboshop.log
 
 func_setup_header() {
@@ -22,7 +20,7 @@ func_status_check $?
 
 func_setup_header "Install Redis"
 dnf module enable redis:remi-6.2 -y &>> $log_path
-dnf install redis -y &>> $log_path &>> $log_path
+dnf install redis -y &>> $log_path
 func_status_check $?
 
 func_setup_header "Update listener Ip"
