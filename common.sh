@@ -122,12 +122,14 @@ func_java_setup() {
 
  func_python_setup() {
    func_setup_header "Install Python"
-   dnf install python36 gcc python3-devel -y
+   dnf install python36 gcc python3-devel -y &>> $log_path
+   func_status_check $?
 
    func_app_setup
 
    func_setup_header "Install Dependencies"
-   pip3.6 install -r requirements.txt
+   pip3.6 install -r requirements.txt &>> $log_path
+   func_status_check $?
 
    func_start_systemd
  }
